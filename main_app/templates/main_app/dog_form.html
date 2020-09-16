@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if object %}
+<h1>Edit <span>{{object.name}}</span></h1>
+{% else %}
+<h1>Add Dog</h1>
+{% endif %}
+
+
+<!-- Leaving the action attribute empty in an HTML form, makes the form post to the same URL that's in the address bar -->
+<form action="" method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" value="Submit!">
+</form>
+
+{% endblock %}
