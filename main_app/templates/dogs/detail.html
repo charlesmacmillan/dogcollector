@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-<div style="display: flex">
+<div class="flex">
   <div class="box">
     <h3>{{ dog.name }}</h3>
     <p>Breed: {{ dog.breed }}</p>
@@ -20,7 +20,7 @@
       {% csrf_token %} {{ feeding_form.as_p }}
       <input type="submit" value="Add Feeding" />
     </form>
-    <hr>
+    <hr />
     <div>
       <table>
         <thead>
@@ -39,6 +39,47 @@
         </tbody>
       </table>
     </div>
+  </div>
+</div>
+<hr>
+<div class="flex">
+  <div class="box">
+    <h3>{{ dog.name }}'s Toys</h3>
+    {% if dog.toys.count %}
+    {% for toy in dog.toys.all %}
+    <div>
+      <div>
+        <span>
+          A <span style="color: {{ toy.color }}">{{ toy.color }}</span> {{ toy.name }}
+        </span>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h5>No Toys :(</h5>
+    {% endif %}
+  </div>
+  <div class="box">
+    <h3>Available Toys</h3>
+    {% if toys.count %}
+    {% for toy in toys.all %}
+    <div>
+      <div>
+        <span>
+          A <span style="color: {{ toy.color }}">{{ toy.color }}</span> {{ toy.name }}
+        </span>
+      </div>
+      <div>
+        <form action="{% url 'assoc_toy' dog.id toy.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit">Add</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h5>{{dog.name}} Already Has All Toys Available</h5>
+    {% endif %}
   </div>
 </div>
 {% endblock %}
